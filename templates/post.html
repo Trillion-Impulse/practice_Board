@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{post.post_title}}</title>
+    </head>
+    <body>
+        <p>글제목: {{post.post_title}}</p>
+        <p>작성자: {{post.name}}</p>
+        <p>작성일: {{post.created_at}}</p>
+        <hr>
+        <p style="white-space: pre-line;">{{post.content}}</p>
+
+        <hr>
+        <a href="/">메인 페이지로 돌아가기</a>
+    </body>
+</html>
