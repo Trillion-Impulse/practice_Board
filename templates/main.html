@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>Board</title>
+    </head>
+    <body>
+        <h1>Board</h1>
+        <form action="/add" method="post">
+            <input type="text" name="user-name" placeholder="enter your name" maxlength="12" required>
+            <br>
+            <textarea name="content" placeholder="enter the content" maxlength="500" required></textarea>
+            <br>
+            <button type="submit">포스팅</button>
+        </form>
+
+        <hr>
+
+        <a href="/posts">게시글 목록 보기</a>
+    </body>
+</html>
