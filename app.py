@@ -1,8 +1,9 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_mysqldb import MySQL
 import config
 
 app = Flask(__name__)
+app.secret_key = config.SECRET_KEY
 
 app.config['MYSQL_HOST'] = config.MYSQL_HOST
 app.config['MYSQL_USER'] = config.MYSQL_USER
@@ -44,6 +45,10 @@ def add_post():
         (UserName, PostTitle, Content))
     mysql.connection.commit()
     cur.close()
+
+    # Flash 메시지
+    flash(f"{UserName}님의 게시글 작성 완료")
+
     return redirect(url_for('main'))
 
 @app.route('/post/<int:post_id>')
