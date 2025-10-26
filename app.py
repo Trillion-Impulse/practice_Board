@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from flask_mysqldb import MySQL
 import config
 
@@ -44,7 +44,7 @@ def add_post():
         (UserName, PostTitle, Content))
     mysql.connection.commit()
     cur.close()
-    return f"{UserName}의 게시물 포스팅 완료"
+    return redirect(url_for('main'))
 
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
