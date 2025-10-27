@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>게시글 작성</title>
+    </head>
+    <body>
+        <h1>게시글 작성</h1>
+
+        <hr>
+
+        <form action="/add" method="post">
+            <input type="text" name="user-name" placeholder="enter your name" maxlength="12" required>
+            <br>
+            <input type="text" name="post-title" placeholder="enter a title" maxlength="25" required>
+            <br>
+            <textarea name="content" placeholder="enter the content" maxlength="500" required></textarea>
+            <br>
+            <button type="submit">포스팅</button>
+        </form>
+
+        <hr>
+
+        <a href="/">메인 페이지로 돌아가기</a>
+    </body>
+</html>
