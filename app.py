@@ -107,6 +107,16 @@ def login():
     
     return render_template('login.html')
 
+@app.route('/logout')
+@login_required
+def logout():
+    # 로그인 세션 종료
+    logout_user()
+
+    flash("로그아웃 완료")
+
+    return redirect(url_for('main'))
+
 @app.route('/write')
 def write_post():
     # 게시글 작성 페이지 렌더링
