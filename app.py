@@ -123,9 +123,12 @@ def write_post():
     return render_template('write.html')
 
 @app.route('/add', methods=['POST'])
+@login_required
 def add_post():
     # 브라우저에서 데이터 가져오기
-    UserName = request.form.get('user-name')
+    # 작성자 이름은 로그인 세션에서 가져옴
+    UserName = current_user.name
+    # 나머지는 write.html의 form에서 가져옴
     PostTitle = request.form.get('post-title')
     Content = request.form.get('content')
     
