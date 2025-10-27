@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>로그인</title>
+    </head>
+    <body>
+        <h2>로그인</h2>
+
+        {% with messages = get_flashed_messages()%}
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="color: crimson">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/login" method="post">
+            <input type="email" name="e-mail" placeholder="enter your email" required>
+            <input type="password" name="password" placeholder="enter your password" required>
+            <button type="submit">로그인</button>
+        </form>
+        <a href="/">메인 페이지로 돌아가기</a>
+        <a href="/register">회원가입 페이지로 가기</a>
+    </body>
+</html>
