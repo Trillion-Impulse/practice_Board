@@ -21,12 +21,15 @@
             <form action="{{url_for('logout')}}" method="post" style="display: inline;">
                 <button type="submit">로그아웃</button>
             </form>
-            <a href="{{url_for('write')}}">
+            <a href="{{url_for('write_post')}}">
                 <button>게시글 작성</button>
             </a>
         {% else %}
-            <a href="{{url_for('login')}}">
+            <a href="{{url_for('login')}}" style="display: inline;">
                 <button>로그인</button>
+            </a>
+            <a href="{{url_for('register_user')}}" style="display: inline;">
+                <button>회원가입</button>
             </a>
         {% endif %}
 
