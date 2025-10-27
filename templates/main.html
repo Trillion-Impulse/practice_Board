@@ -16,10 +16,19 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-
-        <a href="/write">
-            <button>게시글 작성</button>
-        </a>
+        
+        {% if current_user.is_authenticated %}
+            <form action="{{url_for('logout')}}" method="post" style="display: inline;">
+                <button type="submit">로그아웃</button>
+            </form>
+            <a href="{{url_for('write')}}">
+                <button>게시글 작성</button>
+            </a>
+        {% else %}
+            <a href="{{url_for('login')}}">
+                <button>로그인</button>
+            </a>
+        {% endif %}
 
         <hr>
 
