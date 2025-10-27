@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>회원가입</title>
+    </head>
+    <body>
+        <h2>회원가입</h2>
+        <form action="/register" method="post">
+            <input type="text" name="user-name" placeholder="enter your name" required>
+            <input type="email" name="e-mail" placeholder="enter your email" required>
+            <input type="password" name="password" placeholder="enter password" required>
+            <input type="password" name="password2" placeholder="re-enter password" required>
+            <button type="submit">가입</button>
+        </form>
+
+        <a href="/">메인 페이지로 돌아가기</a>
+        <a href="/login">로그인 페이지로 가기</a>
+    </body>
+</html>
