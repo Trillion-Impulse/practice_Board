@@ -21,6 +21,11 @@ def main():
     cur.close()
     return render_template('main.html', posts=Posts)
 
+@app.route('/write')
+def write_post():
+    # 게시글 작성 페이지 렌더링
+    return render_template('write.html')
+
 @app.route('/add', methods=['POST'])
 def add_post():
     # 브라우저에서 데이터 가져오기
