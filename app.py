@@ -79,9 +79,33 @@ def register_user():
         return redirect(url_for('main'))
     
     return render_template('register.html')
-        
 
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        Email = request.form.get('e-mail')
+        Password = request.form.get('password')
 
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE email=%s", (Email,))
+        UserData = cur.fetchone()
+        cur.close()
+
+        # DB에 UserData가 존재하고, 비밀번호가 맞으면
+        if UserData and bcrypt.check_password_hash(UserData['password_hash'],Password):
+            # User 객체 생성
+            LoginUser = User(UserData['user_id'], UserData['user_name'], UserData['email'])
+            # 로그인 세션 생성
+            login_user(LoginUser)
+
+            flash("로그인 성공")
+
+            return redirect(url_for('main'))
+        else:
+            flash("이메일 또는 비밀번호가 올바르지 않습니다")
+            return redirect(url_for('login'))
+    
+    return render_template('login.html')
 
 @app.route('/write')
 def write_post():
