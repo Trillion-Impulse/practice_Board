@@ -48,6 +48,41 @@ def main():
     cur.close()
     return render_template('main.html', posts=Posts)
 
+@app.route('/register', methods=['GET','POST'])
+def register_user():
+    if request.method == 'POST':
+        UserName = request.form.get('user-name')
+        Email = request.form.get('e-mail')
+        Password = request.form.get('password')
+        Password2 = request.form.get('password2')
+
+        # 비밀번호 확인
+        if Password != Password2:
+            return "비밀번호가 일치하지 않습니다.",400
+        
+        # 비밀번호 해싱
+        HashedPassword = bcrypt.generate_password_hash(Password).decode('utf-8')
+
+        # DB 저장
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute("INSERT INTO users (user_name, email, password_hash) VALUES (%s, %s, %s)",
+                        (UserName, Email, HashedPassword))
+            mysql.connection.commit()
+        except:
+            cur.close()
+            return "이미 존재하는 이메일입니다.", 400
+        cur.close()
+
+        flash("회원가입 완료")
+
+        return redirect(url_for('main'))
+    
+    return render_template('register.html')
+        
+
+
+
 @app.route('/write')
 def write_post():
     # 게시글 작성 페이지 렌더링
