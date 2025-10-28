@@ -155,6 +155,34 @@ def add_post():
 
     return redirect(url_for('main'))
 
+@app.route('/delete/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    # 삭제 후 리다이렉트할 URL
+    RedirectTo = request.form.get('redirect-to', url_for('main'))
+
+    # 삭제 할 게시글 정보 가져오기
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT user_id FROM posts WHERE post_id = %s", (post_id,))
+    Post = cur.fetchone()
+
+    # 유효성 검사
+    if not Post:
+        cur.close()
+        return "게시글이 존재하지 않습니다", 404
+    if Post['user_id'] != current_user.id:
+        cur.close()
+        return "권한이 없습니다", 403
+    
+    # 삭제
+    cur.execute("DELETE FROM posts WHERE post_id = %s", (post_id,))
+    mysql.connection.commit()
+    cur.close()
+
+    flash("게시글이 삭제되었습니다")
+
+    return redirect(RedirectTo)
+
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
     cur = mysql.connection.cursor()
