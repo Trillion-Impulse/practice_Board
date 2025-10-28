@@ -167,5 +167,18 @@ def view_post(post_id):
 
     return render_template('post.html', post=Post)
 
+@app.route('/my_posts')
+@login_required
+def my_posts():
+    cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT post_id, name, post_title, created_at FROM posts WHERE user_id = %s ORDER BY created_at DESC", 
+        (current_user.id,)
+                )
+    Posts = cur.fetchall()
+    cur.close()
+
+    return render_template('my_posts.html', posts=Posts)
+
 if __name__ == '__main__':
     app.run(debug=True)
