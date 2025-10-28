@@ -9,6 +9,14 @@
         
         <hr>
 
+        {% with messages = get_flashed_messages()%}
+            {% if messages %}
+                {% for message in messages %}
+                    <div style="color: green;">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
         {% if posts %}
             <ul>
                 {% for post in posts %}
