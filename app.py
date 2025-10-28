@@ -133,10 +133,8 @@ def add_post():
     Content = request.form.get('content')
     
     # 유효성 검사
-    if not UserName or not PostTitle or not Content:
-        return "이름, 제목, 내용을 모두 입력해주세요",400
-    if len(UserName)>12:
-        return "이름은 12자 이하로 입력해주세요",400
+    if not PostTitle or not Content:
+        return "제목, 내용을 모두 입력해주세요",400
     if len(PostTitle)>25:
         return "제목은 25자 이하로 입력해주세요",400
     if len(Content)>500:
@@ -145,8 +143,8 @@ def add_post():
     # DB 저장
     cur = mysql.connection.cursor()
     cur.execute(
-        "INSERT INTO posts (name, post_title, content) VALUES (%s, %s, %s)",
-        (UserName, PostTitle, Content))
+        "INSERT INTO posts (user_id, name, post_title, content) VALUES (%s, %s, %s, %s)",
+        (current_user.id, UserName, PostTitle, Content))
     mysql.connection.commit()
     cur.close()
 
