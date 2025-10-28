@@ -24,6 +24,9 @@
             <a href="{{url_for('write_post')}}">
                 <button>게시글 작성</button>
             </a>
+            <a href="{{url_for('my_posts')}}">
+                <button>내 게시글</button>
+            </a>
         {% else %}
             <a href="{{url_for('login')}}" style="display: inline;">
                 <button>로그인</button>
