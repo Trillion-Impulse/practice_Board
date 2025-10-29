@@ -1,56 +1,27 @@
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>Board</title>
-    </head>
-    <body>
-        <h1>Board</h1>
+{% extends "base.html" %}
 
-        <hr>
+<!-- 브라우저 탭 타이틀 영역 -->
+{% block title %}Board{% endblock %}
 
-        {% with messages = get_flashed_messages()%}
-            {% if messages %}
-                {% for message in messages %}
-                    <div style="color: green;">{{message}}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        {% if current_user.is_authenticated %}
-            <form action="{{url_for('logout')}}" method="post" style="display: inline;">
-                <button type="submit">로그아웃</button>
-            </form>
-            <a href="{{url_for('write_post')}}">
-                <button>게시글 작성</button>
-            </a>
-            <a href="{{url_for('my_posts')}}">
-                <button>내 게시글</button>
-            </a>
-        {% else %}
-            <a href="{{url_for('login')}}" style="display: inline;">
-                <button>로그인</button>
-            </a>
-            <a href="{{url_for('register_user')}}" style="display: inline;">
-                <button>회원가입</button>
-            </a>
-        {% endif %}
+<!-- 헤더 영역 -->
+{% block header %}
+    <h1>Board</h1>
+{% endblock %}
 
-        <hr>
+<!-- 본문 영역 -->
+{% block content %}
+    <h2>게시글 목록</h2>
 
-        <h2>게시글 목록</h2>
-
-        {% if posts %}
-            <ul>
-                {% for post in posts %}
-                    <li>
-                        <a href="/post/{{post.post_id}}">{{post.post_title}}</a>
-                        <small>({{post.name}} / {{post.created_at}})</small>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>게시글이 없습니다.</p>
-        {% endif %}
-    </body>
-</html>
+    {% if posts %}
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <a href="/post/{{post.post_id}}">{{post.post_title}}</a>
+                    <small>({{post.name}} / {{post.created_at}})</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>게시글이 없습니다.</p>
+    {% endif %}
+{% endblock %}
