@@ -1,24 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{post.post_title}}</title>
-    </head>
-    <body>
-        <p>글제목: {{post.post_title}}</p>
-        <p>작성자: {{post.name}}</p>
-        <p>작성일: {{post.created_at}}</p>
-        <hr>
-        <p style="white-space: pre-line;">{{post.content}}</p>
+{% extends "base.html" %}
 
-        <hr>
-        {% if current_user.is_authenticated and current_user.id == post.user_id %}
-            <form action="{{url_for('delete_post', post_id=post.post_id)}}" method="post">
-                <!-- 삭제 요청 시 원래 페이지의 정보를 전달 -->
-                <input type="hidden" name="redirect-to" value="{{request.referrer}}">
-                <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-            </form>
-        {% endif %}
-        <a href="/">메인 페이지로 돌아가기</a>
-    </body>
-</html>
+<!-- 브라우저 탭 타이틀 영역 -->
+{% block title %}게시글 조회{% endblock %}
+
+<!-- 헤더 영역 -->
+{% block header %}
+    <h2>게시글 조회</h2>
+{% endblock %}
+
+<!-- 본문 영역 -->
+{% block content %}
+    <p>글제목: {{post.post_title}}</p>
+    <p>작성자: {{post.name}}</p>
+    <p>작성일: {{post.created_at}}</p>
+    <hr>
+    <p style="white-space: pre-line;">{{post.content}}</p>
+
+    <hr>
+    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+        <form action="{{url_for('delete_post', post_id=post.post_id)}}" method="post">
+            <!-- 삭제 요청 시 원래 페이지의 정보를 전달 -->
+            <input type="hidden" name="redirect-to" value="{{request.referrer}}">
+            <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+        </form>
+    {% endif %}
+
+    <a href="/">메인 페이지로 돌아가기</a>
+{% endblock %}
