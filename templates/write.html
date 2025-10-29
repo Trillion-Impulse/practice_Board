@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>게시글 작성</title>
-    </head>
-    <body>
-        <h1>게시글 작성</h1>
+{% extends "base.html" %}
 
-        <hr>
+<!-- 브라우저 탭 타이틀 영역 -->
+{% block title %}게시글 작성{% endblock %}
 
-        <form action="/add" method="post">
-            <p>작성자: {{current_user.name}}</p>
-            <input type="text" name="post-title" placeholder="enter a title" maxlength="25" required>
-            <br>
-            <textarea name="content" placeholder="enter the content" maxlength="500" required></textarea>
-            <br>
-            <button type="submit">포스팅</button>
-        </form>
+<!-- 헤더 영역 -->
+{% block header %}
+    <h2>게시글 작성</h2>
+{% endblock %}
 
-        <hr>
+<!-- 본문 영역 -->
+{% block content %}
+    <form action="/add" method="post">
+        <p>작성자: {{current_user.name}}</p>
+        <input type="text" name="post-title" placeholder="enter a title" maxlength="25" required>
+        <br>
+        <textarea name="content" placeholder="enter the content" maxlength="500" required></textarea>
+        <br>
+        <button type="submit">포스팅</button>
+    </form>
 
-        <a href="/">메인 페이지로 돌아가기</a>
-    </body>
-</html>
+    <hr>
+
+    <a href="/">메인 페이지로 돌아가기</a>
+{% endblock %}
