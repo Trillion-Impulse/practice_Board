@@ -13,8 +13,11 @@
                 <button>메인</button>
             </a>
             
+            <br>
+
             <!-- 상황에 따른 버튼 -->
             {% if current_user.is_authenticated %}
+                <span><strong>{{current_user.name}}</strong>님</span>
                 <form action="{{url_for('logout')}}" method="post" style="display: inline;">
                     <button type="submit">로그아웃</button>
                 </form>
