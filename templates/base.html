@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        
+        <!-- 브라우저 탭 타이틀 영역 -->
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <!-- 네비게이션 바 -->
+        <nav>
+            <a href="{{url_for('main')}}">
+                <button>메인</button>
+            </a>
+            
+            <!-- 상황에 따른 버튼 -->
+            {% if current_user.is_authenticated %}
+                <form action="{{url_for('logout')}}" method="post" style="display: inline;">
+                    <button type="submit">로그아웃</button>
+                </form>
+                <a href="{{url_for('write_post')}}">
+                    <button>게시글 작성</button>
+                </a>
+                <a href="{{url_for('my_posts')}}">
+                    <button>내 게시글</button>
+                </a>
+            {% else %}
+                <a href="{{url_for('login')}}">
+                    <button>로그인</button>
+                </a>
+                <a href="{{url_for('register_user')}}">
+                    <button>회원가입</button>
+                </a>
+            {% endif %}
+
+            <!-- flash message 영역 -->
+            {% with messages = get_flashed_messages()%}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="color: green;">{{message}}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </nav>
+
+        <!-- 헤더 영역 -->
+        {% block header %}{% endblock %}
+
+        <!-- 본문 영역 -->
+        {% block content %}{% endblock %}
+
+        <!-- 푸터 영역 -->
+        {% block footer %}{% endblock %}
+    </body>
+
+</html>
