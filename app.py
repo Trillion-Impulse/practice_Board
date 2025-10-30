@@ -58,7 +58,8 @@ def register_user():
 
         # 비밀번호 확인
         if Password != Password2:
-            return "비밀번호가 일치하지 않습니다.",400
+            flash("비밀번호가 일치하지 않습니다.")
+            return render_template('register.html')
         
         # 비밀번호 해싱
         HashedPassword = bcrypt.generate_password_hash(Password).decode('utf-8')
@@ -71,7 +72,8 @@ def register_user():
             mysql.connection.commit()
         except:
             cur.close()
-            return "이미 존재하는 이메일입니다.", 400
+            flash("이미 존재하는 이메일입니다.")
+            return render_template('register.html')
         cur.close()
 
         flash("회원가입 완료")
