@@ -136,11 +136,14 @@ def add_post():
     
     # 유효성 검사
     if not PostTitle or not Content:
-        return "제목, 내용을 모두 입력해주세요",400
+        flash("제목과 내용을 모두 입력해주세요")
+        return render_template('write.html', post_title=PostTitle, content=Content)
     if len(PostTitle)>25:
-        return "제목은 25자 이하로 입력해주세요",400
+        flash("제목은 25자 이하로 입력해주세요")
+        return render_template('write.html', post_title=PostTitle, content=Content)
     if len(Content)>500:
-        return "내용은 500자 이하로 입력해주세요",400
+        flash("내용은 500자 이하로 입력해주세요")
+        return render_template('write.html', post_title=PostTitle, content=Content)
 
     # DB 저장
     cur = mysql.connection.cursor()
