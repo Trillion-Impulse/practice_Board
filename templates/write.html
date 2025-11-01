@@ -10,13 +10,13 @@
 
 <!-- 본문 영역 -->
 {% block content %}
-    <form action="/add" method="post">
+    <form action="{{form_action|default(url_for('add_post'))}}" method="post">
         <p>작성자: {{current_user.name}}</p>
         <input type="text" name="post-title" placeholder="enter a title" maxlength="25" value="{{post_title|default('')}}" required>
         <br>
         <textarea name="content" placeholder="enter the content" maxlength="500" required>{{content|default('')}}</textarea>
         <br>
-        <button type="submit">포스팅</button>
+        <button type="submit">{{submit_text|default('포스팅')}}</button>
     </form>
 
     <hr>
