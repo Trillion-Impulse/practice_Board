@@ -158,6 +158,57 @@ def add_post():
 
     return redirect(url_for('main'))
 
+@app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT user_id, post_title, content FROM posts WHERE post_id = %s", (post_id,))
+    Post = cur.fetchone()
+
+    # 유효성 검사
+    if not Post:
+        cur.close()
+        return "게시글이 존재하지 않습니다", 404
+    if Post['user_id'] != current_user.id:
+        cur.close()
+        return "권한이 없습니다", 403
+    
+    if request.method == 'POST':
+        PostTitle = request.form.get('post-title')
+        Content = request.form.get('content')
+
+        # 유효성 검사
+        if not PostTitle or not Content:
+            flash("제목과 내용을 모두 입력해주세요")
+            return render_template('write.html', 
+                                   post_title=PostTitle, content=Content,
+                                   form_action=url_for('edit_post', post_id=post_id),
+                                   submit_text="수정 완료")
+        if len(PostTitle)>25:
+            flash("제목은 25자 이하로 입력해주세요")
+            return render_template('write.html', post_title=PostTitle, content=Content,
+                                   form_action=url_for('edit_post', post_id=post_id),
+                                   submit_text="수정 완료")
+        if len(Content)>500:
+            flash("내용은 500자 이하로 입력해주세요")
+            return render_template('write.html', post_title=PostTitle, content=Content,
+                                   form_action=url_for('edit_post', post_id=post_id),
+                                   submit_text="수정 완료")
+        
+        cur.execute("UPDATE posts SET post_title = %s, content = %s WHERE post_id = %s",
+                    (PostTitle, Content, post_id))
+        mysql.connection.commit()
+        cur.close()
+
+        flash("게시글 수정 완료")
+        return redirect(url_for('view_post', post_id=post_id))
+    
+    cur.close()
+    return render_template('write.html',
+                           post_title=Post['post_title'], content=Post['content'],
+                           form_action=url_for('edit_post', post_id=post_id),
+                           submit_text="수정 완료")
+
 @app.route('/delete/<int:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):
