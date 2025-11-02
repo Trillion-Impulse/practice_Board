@@ -10,12 +10,12 @@
 
 <!-- 본문 영역 -->
 {% block content %}
-    <form action="/login" method="post">
+    <form action="{{url_for('login')}}" method="post">
         <input type="email" name="e-mail" placeholder="enter your email" required>
         <input type="password" name="password" placeholder="enter your password" required>
         <button type="submit">로그인</button>
     </form>
 
-    <a href="/">메인 페이지로 돌아가기</a>
-    <a href="/register">회원가입 페이지로 가기</a>
+    <a href="{{url_for('main')}}">메인 페이지로 돌아가기</a>
+    <a href="{{url_for('register_user')}}">회원가입 페이지로 가기</a>
 {% endblock %}
