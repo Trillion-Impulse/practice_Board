@@ -16,7 +16,7 @@
         <ul>
             {% for post in posts %}
                 <li>
-                    <a href="/post/{{post.post_id}}">{{post.post_title}}</a>
+                    <a href="{{url_for('view_post', post_id = post['post_id'])}}">{{post.post_title}}</a>
                     <small>({{post.name}} / {{post.created_at}})</small>
                 </li>
             {% endfor %}
