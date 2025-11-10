@@ -42,11 +42,30 @@ def load_user(UserId):
 
 @app.route('/')
 def main():
+    Page = request.args.get('page', 1, type=int)
+    PerPage = getattr(config, 'POSTS_PER_PAGE',5)
+    Offset = (Page - 1) * PerPage
+
     cur = mysql.connection.cursor()
-    cur.execute("SELECT post_id, name, post_title, created_at FROM posts ORDER BY created_at DESC")
+
+    cur.execute("SELECT COUNT(*) AS total FROM posts")
+    TotalPosts = cur.fetchone()['total']
+    TotalPages = (TotalPosts + PerPage - 1) // PerPage
+
+    cur.execute("""
+        SELECT post_id, name, post_title, created_at
+        FROM posts
+        ORDER BY created_at DESC
+        LIMIT %s OFFSET %s
+    """, (PerPage, Offset))
     Posts = cur.fetchall()
     cur.close()
-    return render_template('main.html', posts=Posts)
+
+    if Page < 1 or (TotalPages and Page > TotalPages):
+        flash("존재하지 않는 페이지입니다")
+        return redirect(url_for('main', page = 1))
+    
+    return render_template('main.html', posts = Posts, page = Page, total_pages = TotalPages)
 
 @app.route('/register', methods=['GET','POST'])
 def register_user():
